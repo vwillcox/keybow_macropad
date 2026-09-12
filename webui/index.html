@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keybow Configurator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="mark">⌨️</span> Keybow</div>
+    <div id="layer-tabs"></div>
+    <div class="header-actions">
+      <button id="add-layer" class="ghost small" title="Add layer">+ Layer</button>
+      <div id="status-pill" class="status-pill" title="Live update connection to the daemon">
+        <span class="led"></span><span id="status-label">Connecting…</span>
+      </div>
+      <button id="settings-btn" class="ghost icon" title="Settings">⚙</button>
+      <div class="kbd-hint" id="cmdk-trigger" title="Open command palette"><kbd>⌘</kbd><kbd>K</kbd></div>
+    </div>
+  </header>
+
+  <main>
+    <div>
+      <div id="grid"></div>
+
+      <section class="block card" style="margin-top:16px">
+        <div class="section-title">Layer settings</div>
+        <div class="field">
+          <label>Layer name</label>
+          <input type="text" id="layer-name">
+        </div>
+        <div class="row wrap">
+          <button id="delete-layer" class="danger small">Delete this layer</button>
+          <button id="activate-layer" class="small">Activate on device now</button>
+        </div>
+      </section>
+
+      <section class="block card">
+        <div class="section-title">Macros<span class="hint">reusable action lists</span></div>
+        <div id="macro-list"></div>
+        <button id="add-macro" class="small" style="margin-top:8px">+ Macro</button>
+      </section>
+    </div>
+
+    <div id="panel" class="card">
+      <div id="panel-empty">
+        <div class="glyph">👆</div>
+        <div>Select a key on the left to configure what it does.</div>
+        <div class="hint">Or press <kbd>⌘</kbd><kbd>K</kbd> to jump anywhere.</div>
+      </div>
+      <div id="panel-content" hidden></div>
+    </div>
+  </main>
+
+  <footer>
+    <button id="save" class="primary">Save to device<span class="dirty-dot"></span></button>
+    <span id="save-status"></span>
+    <span class="spacer"></span>
+  </footer>
+
+  <div id="settings-popover" class="card" style="position:fixed;bottom:60px;right:20px;z-index:50;width:260px;box-shadow:var(--shadow-lg)" hidden>
+    <div class="section-title">Settings</div>
+    <div class="field">
+      <label>Hold threshold (ms)</label>
+      <input type="number" id="hold-ms">
+    </div>
+    <div class="field">
+      <label>Device rotation</label>
+      <select id="rotation">
+        <option value="0">0° (as manufactured)</option>
+        <option value="90">90°</option>
+        <option value="180">180°</option>
+        <option value="270">270°</option>
+      </select>
+    </div>
+    <div class="hint">If you physically rotate the pad, set this instead of redoing your layout.</div>
+  </div>
+
+  <dialog id="macro-dialog">
+    <div class="field">
+      <label>Macro name</label>
+      <input type="text" id="macro-name">
+    </div>
+    <div id="macro-actions"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="macro-close" class="small">Close</button>
+      <button id="macro-delete" class="danger small">Delete macro</button>
+    </div>
+  </dialog>
+
+  <div id="cmdk-backdrop" hidden>
+    <div id="cmdk">
+      <input id="cmdk-input" type="text" placeholder="Jump to a layer, key, or action…" autocomplete="off">
+      <div id="cmdk-list"></div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

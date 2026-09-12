@@ -1,0 +1,35 @@
+# Grants the user access to the Keybow 2040's HID input device and its
+# CircuitPython serial ports, via plain group ownership rather than
+# systemd-logind's uaccess ACLs — confirmed on this machine that uaccess
+# ACLs aren't applied to input devices at all (Hyprland/Omarchy hands off
+# real device access to the compositor via seatd, not per-session logind
+# ACLs), so a uaccess TAG has nothing to attach to. `uucp` is used because
+# it's the group this system already owns the CircuitPython serial ports
+# with, and the user is already a member of it — no new group membership
+# (and therefore no relogin) needed.
+SUBSYSTEM=="input", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="08c6", GROUP="uucp", MODE="0660"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="08c6", GROUP="uucp", MODE="0660"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="08c6", GROUP="uucp", MODE="0660"
+
+# Start the daemon the moment the pad is plugged in, and stop it the moment
+# it's unplugged, instead of leaving it always running. `--machine=__USER__@`
+# is systemd's supported way for a root-run udev RUN to reach a specific
+# user's --user manager without needing that user's DBUS_SESSION_BUS_ADDRESS
+# by hand.
+#
+# Matching on ENV{DEVTYPE}/ENV{PRODUCT} (kernel-supplied uevent fields) is
+# deliberate, not ATTRS{idVendor}/idProduct (sysfs reads) or a udev-database
+# round trip: confirmed on this machine that ATTR{idVendor} isn't reliably
+# readable at the literal "add" step (only once the driver actually attaches,
+# which "bind" signals), that it's already gone one step before "remove" (at
+# "unbind"), and that a value stashed in the udev database via one event
+# doesn't carry forward into a *later* event's own rule matching even with
+# IMPORT{db} (confirmed empirically — never matched, despite `udevadm info`
+# showing it set moments earlier). ENV{DEVTYPE}/ENV{PRODUCT} sidestep all of
+# that: they come from the kernel's own uevent, present identically and
+# reliably on both "bind" and "remove" for this exact device with no sysfs
+# or database dependency. DEVTYPE=="usb_device" narrows PRODUCT's match to
+# the physical device itself, once per plug/unplug — PRODUCT alone would
+# also match once per USB interface the Keybow exposes (HID + 2 serial).
+ACTION=="bind", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="16d0/8c6/100", RUN+="/usr/bin/systemctl --user --machine=__USER__@ start keybow-daemon.service"
+ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="16d0/8c6/100", RUN+="/usr/bin/systemctl --user --machine=__USER__@ stop keybow-daemon.service"

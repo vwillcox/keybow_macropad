@@ -1,0 +1,443 @@
+{
+  "port": 8642,
+  "hold_ms": 400,
+  "active_layer": "layer-1",
+  "layers": [
+    {
+      "id": "layer-1",
+      "name": "Default",
+      "color": "#2b6cb0",
+      "keys": [
+        {
+          "label": "ProtonMail",
+          "color": "#6b46c1",
+          "tap": [
+            {
+              "type": "open_url",
+              "url": "https://mail.proton.me"
+            }
+          ],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "Layer: Browser",
+          "color": "#2f855a",
+          "tap": [
+            {
+              "type": "layer_switch",
+              "target": "layer-2",
+              "mode": "toggle"
+            }
+          ],
+          "hold": []
+        },
+        {
+          "label": "Hold: Apps",
+          "color": "#b7791f",
+          "tap": [],
+          "hold": [
+            {
+              "type": "layer_switch",
+              "target": "layer-3",
+              "mode": "momentary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "layer-2",
+      "name": "Browser",
+      "color": "#2f855a",
+      "keys": [
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "Layer: Default",
+          "color": "#2b6cb0",
+          "tap": [
+            {
+              "type": "layer_switch",
+              "target": "layer-1",
+              "mode": "toggle"
+            }
+          ],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        }
+      ]
+    },
+    {
+      "id": "layer-3",
+      "name": "Apps",
+      "color": "#b7791f",
+      "keys": [
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        }
+      ]
+    },
+    {
+      "id": "layer-4",
+      "name": "Macros",
+      "color": "#822727",
+      "keys": [
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        },
+        {
+          "label": "",
+          "color": "#1a1a1a",
+          "tap": [],
+          "hold": []
+        }
+      ]
+    }
+  ],
+  "macros": {}
+}

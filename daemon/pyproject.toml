@@ -1,0 +1,22 @@
+[project]
+name = "keybow-daemon"
+version = "0.1.0"
+description = "Host daemon for a Keybow 2040 turned into a fully configurable Linux macro pad"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "evdev>=1.6",
+    "pyserial>=3.5",
+    "dbus-next>=0.2.3",
+]
+
+[project.scripts]
+keybow-daemon = "keybow_daemon.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["keybow_daemon"]

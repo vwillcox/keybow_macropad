@@ -1,0 +1,15 @@
+[Unit]
+Description=Keybow 2040 macro pad daemon (input handling, web configurator, tray icon)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=__VENV_PYTHON__ -m keybow_daemon.main
+WorkingDirectory=__WORKDIR__
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=10
+
+[Install]
+WantedBy=default.target
