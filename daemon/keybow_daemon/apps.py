@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import re
 import shlex
-import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+
+from .spawn import spawn_detached
 
 APP_DIRS = [
     Path("/usr/share/applications"),
@@ -103,10 +104,4 @@ def launch_app(desktop_id: str) -> None:
     args = shlex.split(cmd)
     if not args:
         raise ValueError(f"{desktop_id} has an empty Exec= line")
-    subprocess.Popen(
-        args,
-        stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
+    spawn_detached(args)

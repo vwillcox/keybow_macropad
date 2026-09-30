@@ -9,12 +9,13 @@ Menu: Open Configurator, a submenu to switch layers, Reload Config, Quit.
 from __future__ import annotations
 
 import logging
-import webbrowser
 from typing import Callable
 
 from dbus_next import PropertyAccess, Variant
 from dbus_next.aio import MessageBus
 from dbus_next.service import ServiceInterface, dbus_property, method, signal
+
+from .spawn import spawn_detached
 
 logger = logging.getLogger("keybow.tray")
 
@@ -236,7 +237,7 @@ class TrayIcon:
         logger.info("tray icon registered as %s", bus_name)
 
     def _open_configurator(self) -> None:
-        webbrowser.open(self._web_url)
+        spawn_detached(["xdg-open", self._web_url])
 
     def _rebuild_menu(self) -> None:
         if self._menu is None:

@@ -24,6 +24,7 @@ from .config import (
     TextStep,
 )
 from .layers import LayerController
+from .spawn import spawn_detached
 
 logger = logging.getLogger("keybow.actions")
 
@@ -76,19 +77,11 @@ def dispatch_actions(action_list: list[Action], ctx: ActionContext, _macro_guard
 
 def _execute_one(action: Action, ctx: ActionContext, macro_guard: frozenset[str]) -> None:
     if isinstance(action, OpenUrlAction):
-        subprocess.Popen(
-            ["xdg-open", action.url],
-            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
+        spawn_detached(["xdg-open", action.url])
     elif isinstance(action, LaunchAppAction):
         apps.launch_app(action.desktop_id)
     elif isinstance(action, ExecAction):
-        subprocess.Popen(
-            ["/bin/sh", "-c", action.command],
-            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            start_new_session=True,
-        )
+        spawn_detached(["/bin/sh", "-c", action.command])
     elif isinstance(action, KeySequenceAction):
         _run_key_sequence(action)
     elif isinstance(action, LayerSwitchAction):
