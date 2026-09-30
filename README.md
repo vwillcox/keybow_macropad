@@ -43,10 +43,16 @@ two files copied over.
    repo's `firmware/code.py` replaces whatever demo `code.py` is there).
 4. Power-cycle the board (unplug/replug, or reset button). `boot.py` only
    takes effect after a real reset.
-5. You should now see **two** serial devices show up
-   (`/dev/ttyACM0` and `/dev/ttyACM1` — console and the LED data channel),
-   and the keys, while nothing is grabbing them, produce F13–F24 plus
-   Menu/Pause/ScrollLock/PrintScreen — harmless until the daemon runs.
+5. You should now see **one** serial device (`/dev/ttyACM0`, the LED data
+   channel) and **no** `CIRCUITPY` drive, and the keys, while nothing is
+   grabbing them, produce F13–F24 plus Menu/Pause/ScrollLock/PrintScreen —
+   harmless until the daemon runs.
+
+**Maintenance mode.** Once `boot.py` is installed, normal boots hide the
+`CIRCUITPY` drive and the REPL console, so nothing on the host can quietly
+rewrite the pad into a keystroke injector. To update the firmware later,
+**hold key 0 while plugging the pad in** (or while pressing reset): the
+drive and console come back until the next normal boot.
 
 ## 2. Install the daemon
 
@@ -74,8 +80,11 @@ journalctl --user -u keybow-daemon -f
 
 ## 3. Configure
 
-Click the keyboard icon in the bar → **Open Configurator** (or open
-`http://127.0.0.1:8642` yourself). Pick a layer tab, click a key, add
+Click the keyboard icon in the bar → **Open Configurator**. The API needs
+a per-session token, which the tray passes to the page; opening
+`http://127.0.0.1:8642` by hand won't authorize (use
+`http://127.0.0.1:8642/#token=$(cat $XDG_RUNTIME_DIR/keybow/token)` if you
+must). For scripting, send it as an `X-Keybow-Token` header. Pick a layer tab, click a key, add
 actions to its **Tap** (fires on quick press+release) and/or **Hold**
 (fires once you've held it past the threshold) lists, set a label/LED
 color, hit **Save to device** — it applies immediately, no restart needed.
@@ -115,7 +124,7 @@ no way to know which is which without seeing the device rotate.
   type that reliably re-applies rules to an already-connected device).
 - **LEDs don't update**: needs both firmware files (`boot.py` *and*
   `code.py`) and a power-cycle after copying `boot.py` — the daemon logs a
-  warning and keeps working without LEDs if it can't find the second
+  warning and keeps working without LEDs if it can't find the data
   serial port.
 - **Hotkeys/text don't get typed**: the daemon shells out to `wtype`
   (already installed on this system) — it only affects the currently

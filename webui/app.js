@@ -100,8 +100,29 @@ function updateDirtyIndicator() {
 
 // ------------------------------------------------------------------- api --
 
-async function api(path, options) {
-  const res = await fetch(path, options);
+// The daemon requires a token on every API call. The tray opens us at
+// /#token=..., which the browser never sends anywhere; move it into
+// sessionStorage (survives reloads of this tab) and drop it from the URL
+// so it doesn't linger in history or get copied along with the address.
+const API_TOKEN = (() => {
+  const match = location.hash.match(/token=([^&]+)/);
+  let token = match ? decodeURIComponent(match[1]) : null;
+  try {
+    if (token) sessionStorage.setItem("keybowToken", token);
+    else token = sessionStorage.getItem("keybowToken");
+  } catch (_) { /* storage blocked; the in-memory token still works */ }
+  if (match) history.replaceState(null, "", location.pathname + location.search);
+  return token || "";
+})();
+
+async function api(path, options = {}) {
+  const res = await fetch(path, {
+    ...options,
+    headers: { ...(options.headers || {}), "X-Keybow-Token": API_TOKEN },
+  });
+  if (res.status === 401) {
+    throw new Error("Not authorized — open the configurator from the Keybow tray icon.");
+  }
   if (!res.ok) {
     const detail = await res.text();
     throw new Error(`${res.status}: ${detail}`);
@@ -617,7 +638,7 @@ function setStatusPill(state) {
 }
 
 function connectEvents() {
-  const source = new EventSource("/api/events");
+  const source = new EventSource(`/api/events?token=${encodeURIComponent(API_TOKEN)}`);
   source.onopen = () => setStatusPill("connected");
   source.onmessage = (e) => {
     setStatusPill("connected");
@@ -746,5 +767,8 @@ function setupKeyboardShortcuts() {
 }
 
 init().catch((err) => {
-  document.body.innerHTML = `<p style="padding:20px;color:#f56565">Failed to load: ${err.message}</p>`;
+  // textContent, not innerHTML: error text can echo config values back.
+  document.body.replaceChildren(
+    el("p", { style: "padding:20px;color:#f56565" }, `Failed to load: ${err.message}`)
+  );
 });

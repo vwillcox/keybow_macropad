@@ -13,7 +13,7 @@ from .config import ConfigStore
 from .input import InputHandler
 from .layers import LayerController
 from .led import LedLink
-from .server import create_app
+from .server import create_app, load_or_create_token
 from .tray import TrayIcon
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)-14s %(levelname)-7s %(message)s")
@@ -53,9 +53,12 @@ async def async_main() -> None:
     led.on_reconnect(layers.refresh_leds)
     input_handler = InputHandler(config_store, layers)
 
-    app = create_app(config_store, layers)
+    token = load_or_create_token()
+    app = create_app(config_store, layers, token)
     web_url = f"http://127.0.0.1:{config.port}"
-    tray = TrayIcon(config_store, layers, web_url)
+    # The fragment never leaves the browser (not sent in requests, Referer,
+    # or server logs); the web UI reads the token from it.
+    tray = TrayIcon(config_store, layers, f"{web_url}/#token={token}")
 
     # Without this, uvicorn's graceful shutdown waits indefinitely for any
     # open connection to close on its own — including the /api/events SSE
@@ -66,7 +69,7 @@ async def async_main() -> None:
     )
     server = uvicorn.Server(uvicorn_config)
 
-    logger.info("Keybow daemon running — configurator at %s", web_url)
+    logger.info("Keybow daemon running — configurator at %s (open it from the tray icon)", web_url)
 
     tasks = [
         asyncio.create_task(_tray_with_retry(tray), name="tray"),

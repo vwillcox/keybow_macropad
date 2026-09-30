@@ -53,7 +53,9 @@ class LedLink:
             if self._serial is not None:
                 return True
             ports = _candidate_ports()
-            if len(ports) < 2:
+            # Normal boots expose only the data port; maintenance mode (key 0
+            # held at boot, see firmware/boot.py) adds the console too.
+            if not ports:
                 logger.warning(
                     "could not find the Keybow's LED data serial port (found %s); "
                     "LED feedback disabled until it appears",

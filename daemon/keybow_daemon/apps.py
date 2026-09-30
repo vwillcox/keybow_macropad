@@ -88,7 +88,21 @@ def list_apps() -> list[AppEntry]:
     return apps
 
 
+def _is_plain_desktop_id(desktop_id: str) -> bool:
+    # Must be a bare filename: an absolute path or "../" would otherwise
+    # escape APP_DIRS (`Path / "/abs"` discards the left side entirely) and
+    # launch any .desktop file on disk.
+    return (
+        desktop_id.endswith(".desktop")
+        and "/" not in desktop_id
+        and "\0" not in desktop_id
+        and not desktop_id.startswith(".")
+    )
+
+
 def find_app(desktop_id: str) -> AppEntry | None:
+    if not _is_plain_desktop_id(desktop_id):
+        return None
     for app_dir in APP_DIRS:
         candidate = app_dir / desktop_id
         if candidate.is_file():

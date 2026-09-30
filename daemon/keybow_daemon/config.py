@@ -196,6 +196,10 @@ class ConfigStore:
     def on_change(self, callback) -> None:
         self._listeners.append(callback)
 
+    def off_change(self, callback) -> None:
+        if callback in self._listeners:
+            self._listeners.remove(callback)
+
     def _notify(self) -> None:
         for cb in list(self._listeners):
             cb(self._config)
