@@ -341,9 +341,14 @@
       "color": "#822727",
       "keys": [
         {
-          "label": "",
-          "color": "#1a1a1a",
-          "tap": [],
+          "label": "VPN+Zen",
+          "color": "#553c9a",
+          "tap": [
+            {
+              "type": "macro",
+              "id": "vpn_privacy_browse"
+            }
+          ],
           "hold": []
         },
         {
@@ -439,5 +444,26 @@
       ]
     }
   ],
-  "macros": {}
+  "macros": {
+    "vpn_privacy_browse": {
+      "id": "vpn_privacy_browse",
+      "name": "ProtonVPN + Zen Private",
+      "steps": [
+        {
+          "type": "exec",
+          "command": "protonvpn connect && hyprctl notify -1 5000 \"rgb(2f855a)\" \"ProtonVPN: $(protonvpn status | tr '\n' ' ')\" && zen-browser --private-window"
+        }
+      ]
+    },
+    "vpn_close_disconnect": {
+      "id": "vpn_close_disconnect",
+      "name": "Close Zen + VPN Off",
+      "steps": [
+        {
+          "type": "exec",
+          "command": "for addr in $(hyprctl clients -j | jq -r '.[] | select(.class==\"zen\" and (.title | test(\"Private Browsing\"))) | .address'); do hyprctl dispatch \"hl.dsp.window.close({ address = \\\"$addr\\\" })\"; done; protonvpn disconnect"
+        }
+      ]
+    }
+  }
 }
